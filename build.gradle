@@ -5,6 +5,19 @@ plugins {
 	id "org.flywaydb.flyway" version "10.0.0"
 }
 
+bootBuildImage {
+  imageName = "${project.name}"
+  environment = ["BP_JVM_VERSION" : "17.*"]
+
+  docker {
+    publishRegistry {
+      username = project.findProperty("registryUsername")
+      password = project.findProperty("registryToken")
+      url = project.findProperty("registryUrl")
+    }
+  }
+}
+
 flyway {
     url = 'jdbc:h2:file:./target/foobar'
     user = 'sa'
